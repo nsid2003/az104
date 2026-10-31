@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AZ-104">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="robots" content="noindex, nofollow">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<title>AZ-104 · Révision</title>
+<style>
+  :root { --bg:#eef1f5; --card:#fff; --ink:#1b2027; --mute:#6b7683; --ok:#1f9d57; --ko:#d64545; --accent:#0b6fbf; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         padding:calc(16px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); }
+  .wrap { max-width:640px; margin:0 auto; }
+  h1 { font-size:24px; margin:8px 0 2px; }
+  .sub { color:var(--mute); font-size:14px; margin:0 0 18px; }
+  a.mod { display:block; background:var(--card); border-radius:14px; padding:14px 16px; margin:0 0 12px; text-decoration:none; color:inherit;
+          box-shadow:0 1px 3px rgba(0,0,0,.06); border-left:5px solid var(--c, var(--accent)); }
+  a.mod:active { transform:scale(.99); }
+  .row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+  .t { font-weight:700; font-size:17px; }
+  .n { color:var(--mute); font-size:13px; white-space:nowrap; }
+  .bar { height:7px; background:#e3e8ee; border-radius:4px; margin:10px 0 6px; overflow:hidden; display:flex; }
+  .bar i { display:block; height:100%; }
+  .bar .ok { background:var(--ok); } .bar .ko { background:var(--ko); }
+  .stat { font-size:13px; color:var(--mute); }
+  .stat b.ok { color:var(--ok); } .stat b.ko { color:var(--ko); }
+  .tip { background:#fff8e6; border:1px solid #f3d27a; border-radius:12px; padding:12px 14px; font-size:13.5px; color:#5a4710; margin-top:18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AZ-104 · Révision</h1>
+  <p class="sub">Microsoft Azure Administrator — 5 modules, 606 questions</p>
+  <div id="list"></div>
+  <div class="tip" id="tip">💡 Sur iPhone : touche <b>Partager</b> puis <b>Sur l’écran d’accueil</b> pour l’ouvrir comme une app et garder ta progression.</div>
+</div>
+<script>
+var MODS = [
+  { f:'az104_1_identites_gouvernance.html',  t:'AZ-104 · Identités & gouvernance — Révision', name:'1 · Identités & gouvernance', n:133, c:'#7c3aed' },
+  { f:'az104_2_stockage.html',               t:'AZ-104 · Stockage — Révision',                name:'2 · Stockage',               n:104, c:'#0891b2' },
+  { f:'az104_3_calcul_compute.html',         t:'AZ-104 · Calcul (Compute) — Révision',        name:'3 · Calcul (Compute)',       n:126, c:'#ea580c' },
+  { f:'az104_4_reseau_virtuel.html',         t:'AZ-104 · Réseau virtuel — Révision',          name:'4 · Réseau virtuel',         n:157, c:'#2563eb' },
+  { f:'az104_5_supervision_maintenance.html',t:'AZ-104 · Supervision & maintenance — Révision',name:'5 · Supervision & maintenance', n:86, c:'#16a34a' }
+];
+var html = '';
+MODS.forEach(function(m){
+  var st = {}; try { st = JSON.parse(localStorage.getItem('az104_quiz_' + m.t) || '{}'); } catch(e) {}
+  var ok = 0, ko = 0;
+  Object.keys(st).forEach(function(k){ var s = st[k]; if (s && s.verified){ if (s.attempted && s.ok) ok++; else ko++; } });
+  var done = ok + ko, pOk = Math.round(ok / m.n * 100), pKo = Math.round(ko / m.n * 100);
+  html += '<a class="mod" style="--c:' + m.c + '" href="' + m.f + '">' +
+    '<div class="row"><span class="t">' + m.name + '</span><span class="n">' + m.n + ' questions</span></div>' +
+    '<div class="bar"><i class="ok" style="width:' + pOk + '%"></i><i class="ko" style="width:' + pKo + '%"></i></div>' +
+    '<div class="stat">' + (done ? ('<b class="ok">' + ok + ' ✓</b> · <b class="ko">' + ko + ' ✗</b> · ' + (m.n - done) + ' restantes' + ' — ' + Math.round(ok / done * 100) + ' % de réussite') : 'Pas encore commencé') + '</div></a>';
+});
+document.getElementById('list').innerHTML = html;
+if (window.navigator.standalone) document.getElementById('tip').style.display = 'none';
+window.addEventListener('pageshow', function(e){ if (e.persisted) location.reload(); });
+</script>
+</body>
+</html>
